@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2b1b17">
+    <meta name="description" content="A special birthday celebration invitation.">
+    <title>DEE's Birthday Invitation</title>
+
+    <link rel="icon" href="img/3.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --dark: #2b1b17;
+            --brown: #3e2723;
+            --mocha: #624338;
+            --gold: #d9b56d;
+            --champagne: #f5e4b8;
+            --cream: #fff6e7;
+            --muted: #d8c4ad;
+            --serif: "Playfair Display", Georgia, serif;
+            --script: "Allura", cursive;
+            --sans: "Montserrat", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--cream);
+            font-family: var(--sans);
+            background: linear-gradient(to bottom, #2b1b17, #3e2723);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 2px solid var(--champagne);
+            outline-offset: 4px;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        #balloonLayer,
+        #dustLayer,
+        #confettiCanvas,
+        #fireworksCanvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        #balloonLayer {
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        #dustLayer {
+            z-index: 1;
+            opacity: .6;
+            background-image:
+                radial-gradient(1px 1px at 12% 18%, #ffe9ae 50%, transparent 100%),
+                radial-gradient(2px 2px at 73% 32%, #d9b56d 50%, transparent 100%),
+                radial-gradient(1px 1px at 46% 71%, #fff6e7 50%, transparent 100%),
+                radial-gradient(2px 2px at 88% 83%, #d9b56d 50%, transparent 100%);
+            background-size: 230px 240px, 300px 310px, 190px 220px, 280px 290px;
+            animation: glitter 5s ease-in-out infinite alternate;
+        }
+
+        #fireworksCanvas {
+            z-index: 19;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #fireworksCanvas.show {
+            opacity: 1;
+        }
+
+        #confettiCanvas {
+            z-index: 20;
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes glitter {
+            from {
+                opacity: .25;
+            }
+
+            to {
+                opacity: .8;
+            }
+        }
+
+        /* Floating balloons */
+        .balloon {
+            position: absolute;
+            bottom: -190px;
+            width: var(--w, 65px);
+            height: calc(var(--w, 65px)*1.28);
+            left: var(--left, 50%);
+            opacity: var(--opacity, .72);
+            border-radius: 48% 48% 45% 45%;
+            background: var(--balloon-color);
+            box-shadow: inset -10px -12px 18px #0005,
+                inset 9px 8px 12px #fff2;
+            animation: floatUp var(--duration, 22s) linear var(--delay, 0s) infinite;
+        }
+
+        .balloon::before {
+            content: "";
+            position: absolute;
+            top: 13%;
+            left: 18%;
+            width: 16%;
+            height: 31%;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #fff9, #fff0);
+            transform: rotate(22deg);
+        }
+
+        .balloon::after {
+            content: "";
+            position: absolute;
+            left: 46%;
+            bottom: -7px;
+            width: 9px;
+            height: 9px;
+            background: inherit;
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+        }
+
+        .balloon .string {
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            height: calc(var(--w, 65px)*.9);
+            width: 1px;
+            background: linear-gradient(#e8ca84, #c5a25e66, transparent);
+            animation: stringSway 3s ease-in-out infinite alternate;
+        }
+
+        .balloon.gold {
+            --balloon-color: linear-gradient(115deg, #b88636, #f4d78d, #c69a4d);
+        }
+
+        .balloon.dark {
+            --balloon-color: linear-gradient(120deg, #17100e, #493027 55%, #160f0d);
+        }
+
+        .balloon.rose {
+            --balloon-color: linear-gradient(125deg, #f0b9a7, #bd776d 48%, #e8b8a2);
+        }
+
+        .balloon.cream {
+            --balloon-color: linear-gradient(125deg, #fff9ec, #e3d0ae);
+        }
+
+        .balloon.bronze {
+            --balloon-color: linear-gradient(45deg, #6d432c, #9c6b43, #543121);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translate3d(0, 0, 0) rotate(-8deg);
+            }
+
+            50% {
+                transform: translate3d(28px, -55vh, 0) rotate(9deg);
+            }
+
+            100% {
+                transform: translate3d(-18px, -125vh, 0) rotate(-5deg);
+            }
+        }
+
+        @keyframes stringSway {
+            from {
+                transform: rotate(-9deg);
+            }
+
+            to {
+                transform: rotate(9deg);
+            }
+        }
+
+        /* Welcome screen */
+        #welcome {
+            position: fixed;
+            z-index: 10;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            text-align: center;
+            background: linear-gradient(145deg, #211410ef, #3e2723ef);
+            backdrop-filter: blur(3px);
+            transition: opacity 1.1s ease, visibility 1.1s ease;
+        }
+
+        #welcome.is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .welcome-card {
+            width: min(100%, 700px);
+        }
+
+        .eyebrow {
+            color: var(--champagne);
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            font-size: .72rem;
+        }
+
+        .welcome-script {
+            color: var(--gold);
+            font-family: var(--script);
+            font-size: clamp(3rem, 9vw, 6rem);
+            margin: 12px 0;
+            text-shadow: 0 0 20px #d9b56d55;
+        }
+
+        .welcome-heading {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 6vw, 4rem);
+            line-height: 1.2;
+            font-weight: 400;
+            margin: 8px auto 18px;
+        }
+
+        .welcome-subtitle {
+            color: var(--muted);
+            letter-spacing: .15em;
+            font-size: .78rem;
+            line-height: 1.9;
+        }
+
+        .ornament {
+            color: var(--gold);
+            letter-spacing: .6em;
+            margin: 22px 0;
+        }
+
+        .open-button {
+            margin-top: 22px;
+            padding: 16px 58px;
+            border: 1px solid var(--champagne);
+            border-radius: 3px;
+            color: var(--cream);
+            letter-spacing: .35em;
+            font-weight: 600;
+            background: linear-gradient(135deg, #b78b45, #65432b 55%, #a77b3d);
+            box-shadow: 0 0 0 5px #d9b56d13, 0 0 30px #d9b56d25;
+            animation: pulseGold 2.5s infinite;
+        }
+
+        @keyframes pulseGold {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 2px #d9b56d19, 0 0 20px #d9b56d22;
+            }
+
+            50% {
+                box-shadow: 0 0 0 7px #d9b56d13, 0 0 35px #d9b56d55;
+            }
+        }
+
+        /* Invitation content */
+        #invitation {
+            position: relative;
+            z-index: 2;
+        }
+
+        main {
+            width: min(calc(100% - 32px), 940px);
+            margin: 0 auto;
+            padding: 65px 0 70px;
+        }
+
+        .section {
+            margin: 0 auto 76px;
+            text-align: center;
+        }
+
+        .kicker {
+            text-transform: uppercase;
+            letter-spacing: .25em;
+            font-size: .68rem;
+            color: var(--gold);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: var(--serif);
+            font-weight: 400;
+        }
+
+        .hero-title {
+            font-size: clamp(2.4rem, 7vw, 5rem);
+            line-height: 1.12;
+            margin: 18px 0;
+        }
+
+        .hero-title span {
+            display: block;
+            font-family: var(--script);
+            color: var(--gold);
+            font-size: 1.15em;
+        }
+
+        .intro {
+            color: var(--muted);
+            max-width: 580px;
+            line-height: 1.9;
+            margin: 0 auto;
+        }
+
+        .gold-rule {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            justify-content: center;
+            color: var(--gold);
+            margin: 25px auto;
+        }
+
+        .gold-rule::before,
+        .gold-rule::after {
+            content: "";
+            height: 1px;
+            width: 70px;
+            background: linear-gradient(90deg, transparent, var(--gold));
+        }
+
+        .gold-rule::after {
+            transform: rotate(180deg);
+        }
+
+        /* Photo frame with glowing border */
+        .photo-frame {
+            position: relative;
+            isolation: isolate;
+            width: min(100%, 560px);
+            margin: 34px auto 22px;
+            padding: 9px;
+            border: 1px solid var(--gold);
+            background: #d9b56d13;
+            box-shadow: 0 15px 60px #0005;
+        }
+
+        .photo-frame::before {
+            content: "";
+            position: absolute;
+            inset: -5px;
+            z-index: -1;
+            background: linear-gradient(120deg, #ffdc8a, #ff7b8a, #c77dff, #67d7ff, #ffdc8a);
+            background-size: 300% 300%;
+            filter: blur(14px);
+            opacity: .55;
+            animation: frameGlow 6s linear infinite;
+        }
+
+        @keyframes frameGlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .slideshow {
+            position: relative;
+            height: clamp(270px, 65vw, 440px);
+            overflow: hidden;
+            background: linear-gradient(145deg, #624338, #241511);
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: translateX(35px) scale(1.03);
+            transition: opacity .8s ease, transform 1s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+
+        .slide-dots {
+            display: flex;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 18px;
+        }
+
+        .slide-dot {
+            border: 1px solid var(--gold);
+            background: transparent;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            padding: 0;
+        }
+
+        .slide-dot.active {
+            background: var(--gold);
+        }
+
+        /* Countdown */
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            max-width: 660px;
+            margin: 28px auto 0;
+        }
+
+        .time-box {
+            border: 1px solid #d9b56d85;
+            background: linear-gradient(145deg, #ffffff0a, #00000017);
+            padding: 22px 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        .time-number {
+            display: block;
+            color: var(--champagne);
+            font-family: var(--serif);
+            font-size: clamp(1.6rem, 5vw, 2.8rem);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .time-label {
+            display: block;
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: .58rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        /* Event details */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+            margin: 32px auto;
+            text-align: left;
+        }
+
+        .detail-card {
+            border: 1px solid #d9b56d55;
+            padding: 22px;
+            background: #ffffff06;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .detail-icon {
+            color: var(--gold);
+            font-size: 1.4rem;
+        }
+
+        .detail-card h3 {
+            margin: 0 0 8px;
+            font-size: 1.15rem;
+        }
+
+        .detail-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .85rem;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .gold-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--gold);
+            border: 1px solid var(--champagne);
+            color: var(--dark);
+            letter-spacing: .12em;
+            font-size: .75rem;
+            font-weight: 700;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .gold-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px #d9b56d30;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 15px 50px;
+            border-top: 1px solid #d9b56d33;
+            color: var(--muted);
+            font-size: .75rem;
+            line-height: 2;
+        }
+
+        footer span {
+            color: var(--gold);
+            font-family: var(--script);
+            font-size: 1.7rem;
+        }
+
+        /* RSVP modal */
+        .modal {
+            position: fixed;
+            z-index: 30;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 16px;
+            background: #100906d9;
+            backdrop-filter: blur(7px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .3s, visibility .3s;
+        }
+
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-panel {
+            position: relative;
+            width: min(100%, 490px);
+            max-height: 92dvh;
+            overflow-y: auto;
+            padding: clamp(23px, 6vw, 38px);
+            border: 1px solid var(--gold);
+            background: linear-gradient(145deg, #3e2723, #241612);
+            box-shadow: 0 20px 90px #0008;
+            transform: translateY(16px);
+            transition: transform .3s;
+        }
+
+        .modal.open .modal-panel {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 15px;
+            top: 12px;
+            color: var(--champagne);
+            background: transparent;
+            border: 0;
+            font-size: 1.8rem;
+        }
+
+        .modal-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin: 8px 0;
+        }
+
+        .form-intro {
+            text-align: center;
+            color: var(--muted);
+            font-size: .8rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .form-field {
+            margin: 17px 0;
+        }
+
+        .form-field label {
+            display: block;
+            color: var(--champagne);
+            font-size: .75rem;
+            margin-bottom: 8px;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            min-height: 46px;
+            border: 1px solid #d9b56d66;
+            padding: 12px;
+            background: #211511;
+            color: var(--cream);
+        }
+
+        .form-field input::placeholder {
+            color: #bba795;
+        }
+
+        .form-error {
+            color: #ffc4a8;
+            font-size: .75rem;
+            line-height: 1.6;
+        }
+
+        .form-message {
+            text-align: center;
+            font-size: .85rem;
+            line-height: 1.7;
+            margin-top: 15px;
+        }
+
+        .submit-button {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        @media(max-width:560px) {
+            main {
+                padding-top: 48px;
+            }
+
+            .section {
+                margin-bottom: 58px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .detail-card {
+                padding: 18px;
+            }
+
+            .countdown {
+                gap: 6px;
+            }
+
+            .time-box {
+                padding: 17px 4px;
+            }
+
+            .time-label {
+                font-size: .49rem;
+                letter-spacing: .05em;
+            }
+
+            .open-button {
+                padding: 15px 43px;
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="balloonLayer" aria-hidden="true"></div>
+    <div id="dustLayer" aria-hidden="true"></div>
+    <canvas id="fireworksCanvas" aria-hidden="true"></canvas>
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+    <!-- Welcome screen -->
+    <section id="welcome" aria-label="Birthday invitation welcome">
+        <div class="welcome-card">
+            <div class="eyebrow">A little celebration, a lot of love</div>
+            <p class="welcome-script">You are invited</p>
+            <div class="ornament">✦ &nbsp; ✧ &nbsp; ✦</div>
+            <h1 class="welcome-heading">Floating into<br>Another Year</h1>
+            <p class="welcome-subtitle">
+                AN EVENING OF GOLDEN MOMENTS<br>
+                AND BEAUTIFUL MEMORIES
+            </p>
+            <button class="open-button" id="openButton" type="button">OPEN</button>
+            <div class="ornament">✧ &nbsp; ❦ &nbsp; ✧</div>
+        </div>
+    </section>
+
+    <!-- Invitation -->
+    <div id="invitation" hidden>
+        <main>
+            <section class="section">
+                <p class="kicker">With love &amp; gratitude</p>
+                <div class="gold-rule">✦</div>
+                <h1 class="hero-title">
+                    <span>You're invited to</span>
+                    DEE's<br>
+                    <span>26 Birthday Celebration</span>
+                </h1>
+                <p class="intro">
+                    Another beautiful year, another reason to celebrate.
+                    Join us for a special day filled with love, laughter,
+                    golden memories and the people who make life wonderful.
+                </p>
+            </section>
+
+            <section class="section" aria-labelledby="photosHeading">
+                <p class="kicker">The birthday star</p>
+                <h2 id="photosHeading" class="hero-title" style="font-size:clamp(2rem,5vw,3.2rem)">
+                    A Year More Beautiful
+                </h2>
+                <div class="photo-frame">
+                    <div class="slideshow" id="slideshow">
+                        <img src="img/1.jpg" class="slide active" alt="Birthday portrait 1">
+                        <img src="img/2.jpg" class="slide" alt="Birthday portrait 2">
+                        <img src="img/3.jpg" class="slide" alt="Birthday memory 3">
+                        <img src="img/4.jpg" class="slide" alt="Birthday memory 4">
+                    </div>
+                </div>
+                <div class="slide-dots" id="slideDots" aria-label="Choose a photo"></div>
+            </section>
+
+            <section class="section" aria-labelledby="countdownHeading">
+                <p class="kicker">The celebration begins in</p>
+                <h2 id="countdownHeading" class="hero-title" style="font-size:clamp(2rem,5vw,3.2rem)">
+                    Counting the Moments
+                </h2>
+                <div class="countdown" role="timer">
+                    <div class="time-box"><span class="time-number" id="days">00</span><span
+                            class="time-label">Days</span></div>
+                    <div class="time-box"><span class="time-number" id="hours">00</span><span
+                            class="time-label">Hours</span></div>
+                    <div class="time-box"><span class="time-number" id="minutes">00</span><span
+                            class="time-label">Minutes</span></div>
+                    <div class="time-box"><span class="time-number" id="seconds">00</span><span
+                            class="time-label">Seconds</span></div>
+                </div>
+                <p id="countdownMessage" class="intro" style="margin-top:20px" aria-live="polite"></p>
+            </section>
+
+            <section class="section" aria-labelledby="detailsHeading">
+                <p class="kicker">Save the date</p>
+                <h2 id="detailsHeading" class="hero-title" style="font-size:clamp(2rem,5vw,3.2rem)">
+                    The Celebration
+                </h2>
+                <div class="gold-rule">✧</div>
+
+                <div class="details-grid">
+                    <article class="detail-card">
+                        <span class="detail-icon">✦</span>
+                        <div>
+                            <h3>Date</h3>
+                            <p id="eventDateText">[Day, Month Date, Year]</p>
+                        </div>
+                    </article>
+                    <article class="detail-card">
+                        <span class="detail-icon">◷</span>
+                        <div>
+                            <h3>Time</h3>
+                            <p id="eventTimeText">[Start Time] – [End Time]</p>
+                        </div>
+                    </article>
+                    <article class="detail-card">
+                        <span class="detail-icon">⌖</span>
+                        <div>
+                            <h3>Venue</h3>
+                            <p id="eventVenueText">[Venue Name]<br>[Full Address]</p>
+                        </div>
+                    </article>
+                    <article class="detail-card">
+                        <span class="detail-icon">✧</span>
+                        <div>
+                            <h3>Dress Code</h3>
+                            <p id="eventDressText">Mocha, Champagne &amp; Gold</p>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="intro" style="margin-bottom:25px">
+                    Your presence would make this day even more special.
+                    Kindly let us know if you can join us.
+                </p>
+                <button class="gold-button" id="rsvpButton" type="button">RSVP NOW &nbsp; ✦</button>
+            </section>
+        </main>
+
+        <footer>
+            Thank you for being part of this beautiful chapter.<br>
+            <span>With love, always.</span>
+        </footer>
+    </div>
+
+    <!-- RSVP form -->
+    <div class="modal" id="rsvpModal" role="dialog" aria-modal="true" aria-labelledby="rsvpTitle" aria-hidden="true">
+        <div class="modal-panel">
+            <button class="modal-close" id="closeModal" type="button" aria-label="Close RSVP form">×</button>
+            <p class="kicker" style="text-align:center">Kindly respond</p>
+            <h2 class="modal-title" id="rsvpTitle">RSVP</h2>
+            <p class="form-intro">Please let us know if you can join the celebration.</p>
+
+            <form id="rsvpForm">
+                <div class="form-field">
+                    <label for="guestName">Guest Name *</label>
+                    <input id="guestName" name="guestName" type="text" placeholder="Enter your full name"
+                        autocomplete="name" required maxlength="100">
+                </div>
+                <div class="form-field">
+                    <label for="guestPhone">Phone Number *</label>
+                    <input id="guestPhone" name="phone" type="tel" placeholder="Enter your phone number"
+                        autocomplete="tel" required maxlength="25">
+                </div>
+                <div class="form-field">
+                    <label for="rsvpStatus">Will you attend? *</label>
+                    <select id="rsvpStatus" name="status" required>
+                        <option value="">Select your response</option>
+                        <option value="Accept">Joyfully Accept</option>
+                        <option value="Regret">Regretfully Decline</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="guestCount">Number of Guests *</label>
+                    <select id="guestCount" name="guestCount" required>
+                        <option value="1">1 Guest</option>
+                        <option value="2">2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5">5 Guests</option>
+                        <option value="6">6 Guests</option>
+                        <option value="7">7 Guests</option>
+                        <option value="8">8 Guests</option>
+                        <option value="9">9 Guests</option>
+                        <option value="10">10 Guests</option>
+                    </select>
+                </div>
+                <p id="formError" class="form-error" role="alert"></p>
+                <button class="gold-button submit-button" id="submitButton" type="submit">SEND MY RSVP ✦</button>
+                <p id="formMessage" class="form-message" role="status"></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        "use strict";
+
+        /* =====================================
+           EDIT YOUR BIRTHDAY SETTINGS HERE
+        ===================================== */
+
+        const CONFIG = {
+            birthdayName: "DEE",
+            age: "26",
+
+            // January 18, 2027 at 6 PM
+            eventDate: new Date(2026, 11, 26, 19, 0, 0),
+
+            eventDateLabel: "[Saturday, December 26, 2026]",
+            eventTime: "[07:00 PM] – [10;00 PM]",
+            venue: "[Safe House]\n[Sedona Hotel Yangon|Kabar Aye Pagoda Rd, Yangon 11081]",
+            dressCode: "Mocha, Champagne & Gold",
+
+            // Paste your deployed Apps Script URL here.
+            googleScriptUrl: "https://script.google.com/macros/s/AKfycbzJGSvqOulMXll-5-bCjmVnp4qtUWaF2aTiZWLeYBXkwZZuWoWCbLY-SZDsajaL1LOM/exec"
+        };
+
+        function escapeHTML(value) {
+            return String(value).replace(/[&<>"']/g, char => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[char]);
+        }
+
+        /* Background balloons */
+        const balloonLayer = document.getElementById("balloonLayer");
+        const balloonStyles = ["gold", "dark", "rose", "cream", "bronze"];
+
+        function createBalloons(count = 25) {
+            const fragment = document.createDocumentFragment();
+
+            for (let i = 0; i < count; i++) {
+                const balloon = document.createElement("div");
+                const size = 34 + Math.random() * 57;
+
+                balloon.className = "balloon " +
+                    balloonStyles[Math.floor(Math.random() * balloonStyles.length)];
+
+                balloon.style.setProperty("--w", `${size}px`);
+                balloon.style.setProperty("--left", `${Math.random() * 100}%`);
+                balloon.style.setProperty("--duration", `${17 + Math.random() * 22}s`);
+                balloon.style.setProperty("--delay", `${-Math.random() * 38}s`);
+                balloon.style.setProperty("--opacity", `${0.25 + Math.random() * 0.5}`);
+                balloon.innerHTML = '<span class="string"></span>';
+
+                fragment.appendChild(balloon);
+            }
+
+            balloonLayer.appendChild(fragment);
+        }
+
+        createBalloons();
+
+        /* Set birthday details */
+        document.title = `${CONFIG.birthdayName}'s Birthday Invitation`;
+
+        document.querySelector(".hero-title").innerHTML =
+            `<span>You're invited to</span>${escapeHTML(CONFIG.birthdayName)}'s<br>` +
+            `<span>${escapeHTML(CONFIG.age)} Birthday Celebration</span>`;
+
+        document.getElementById("eventDateText").textContent = CONFIG.eventDateLabel;
+        document.getElementById("eventTimeText").textContent = CONFIG.eventTime;
+        document.getElementById("eventVenueText").innerText = CONFIG.venue;
+        document.getElementById("eventDressText").textContent = CONFIG.dressCode;
+
+        /* Countdown */
+        const pad = number => String(number).padStart(2, "0");
+
+        function updateCountdown() {
+            const remaining = CONFIG.eventDate.getTime() - Date.now();
+            const message = document.getElementById("countdownMessage");
+
+            if (Number.isNaN(CONFIG.eventDate.getTime())) {
+                message.textContent = "Please set a valid event date in CONFIG.";
+                return;
+            }
+
+            if (remaining <= 0) {
+                ["days", "hours", "minutes", "seconds"].forEach(id => {
+                    document.getElementById(id).textContent = "00";
+                });
+                message.textContent = "The special day is here. Let the celebration begin!";
+                return;
+            }
+
+            const totalSeconds = Math.floor(remaining / 1000);
+
+            document.getElementById("days").textContent =
+                pad(Math.floor(totalSeconds / 86400));
+
+            document.getElementById("hours").textContent =
+                pad(Math.floor((totalSeconds % 86400) / 3600));
+
+            document.getElementById("minutes").textContent =
+                pad(Math.floor((totalSeconds % 3600) / 60));
+
+            document.getElementById("seconds").textContent =
+                pad(totalSeconds % 60);
+
+            message.textContent =
+                "Every second brings us closer to a beautiful celebration.";
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        /* Photo slideshow */
+        const slides = [...document.querySelectorAll(".slide")];
+        const dotsContainer = document.getElementById("slideDots");
+
+        let currentSlide = 0;
+        let slideshowTimer;
+
+        slides.forEach((slide, index) => {
+            const dot = document.createElement("button");
+
+            dot.type = "button";
+            dot.className = `slide-dot ${index === 0 ? "active" : ""}`;
+            dot.setAttribute("aria-label", `Show photo ${index + 1}`);
+
+            dot.addEventListener("click", () => {
+                showSlide(index);
+                restartSlideshow();
+            });
+
+            dotsContainer.appendChild(dot);
+        });
+
+        function showSlide(index) {
+            currentSlide = index;
+
+            slides.forEach((slide, i) => {
+                slide.classList.toggle("active", i === index);
+            });
+
+            [...dotsContainer.children].forEach((dot, i) => {
+                dot.classList.toggle("active", i === index);
+                dot.setAttribute("aria-current", i === index ? "true" : "false");
+            });
+        }
+
+        function restartSlideshow() {
+            clearInterval(slideshowTimer);
+
+            slideshowTimer = setInterval(() => {
+                showSlide((currentSlide + 1) % slides.length);
+            }, 3000);
+        }
+
+        restartSlideshow();
+
+        /* =====================================
+           CONFETTI ANIMATION
+        ===================================== */
+
+        const canvas = document.getElementById("confettiCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let confettiParticles = [];
+        let confettiFrame = null;
+
+        function resizeCanvas() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            canvas.width = Math.round(window.innerWidth * dpr);
+            canvas.height = Math.round(window.innerHeight * dpr);
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
+        function burstConfetti() {
+            const colors = [
+                "#f5e4b8", "#d9b56d", "#fff8df", "#bb8b43", "#e7b6a3"
+            ];
+
+            confettiParticles = Array.from({ length: 180 }, () => ({
+                x: window.innerWidth / 2 + (Math.random() - 0.5) * 100,
+                y: window.innerHeight * 0.46,
+                vx: (Math.random() - 0.5) * 13,
+                vy: -3 - Math.random() * 12,
+                gravity: 0.15 + Math.random() * 0.13,
+                size: 2 + Math.random() * 5,
+                rotation: Math.random() * 6.28,
+                spin: (Math.random() - 0.5) * 0.2,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                life: 100 + Math.random() * 70
+            }));
+
+            if (confettiFrame) cancelAnimationFrame(confettiFrame);
+
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+            confettiParticles = confettiParticles.filter(
+                p => p.life > 0 && p.y < window.innerHeight + 30
+            );
+
+            confettiParticles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += p.gravity;
+                p.vx *= 0.994;
+                p.rotation += p.spin;
+                p.life--;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation);
+                ctx.globalAlpha = Math.min(1, p.life / 25);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.8);
+                ctx.restore();
+            });
+
+            if (confettiParticles.length) {
+                confettiFrame = requestAnimationFrame(animateConfetti);
+            } else {
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                confettiFrame = null;
+            }
+        }
+
+        /* =====================================
+           BIRTHDAY MUSIC
+        ===================================== */
+
+        let audioContext = null;
+        let musicTimer = null;
+        let musicStep = 0;
+
+        function startBirthdayMusic() {
+            try {
+                const AudioContextClass =
+                    window.AudioContext || window.webkitAudioContext;
+
+                if (!AudioContextClass) return;
+
+                if (!audioContext) audioContext = new AudioContextClass();
+
+                audioContext.resume();
+
+                if (musicTimer) clearTimeout(musicTimer);
+
+                // Happy Birthday melody
+                const melody = [
+                    [392.00, 220], [392.00, 150], [440.00, 320],
+                    [392.00, 320], [523.25, 320], [493.88, 500],
+
+                    [392.00, 220], [392.00, 150], [440.00, 320],
+                    [392.00, 320], [587.33, 320], [523.25, 500],
+
+                    [392.00, 220], [392.00, 150], [783.99, 320],
+                    [659.25, 320], [523.25, 320], [493.88, 320],
+                    [440.00, 500],
+
+                    [698.46, 220], [698.46, 150], [659.25, 320],
+                    [523.25, 320], [587.33, 320], [523.25, 650]
+                ];
+
+                function playNextNote() {
+                    if (!audioContext || audioContext.state !== "running") return;
+
+                    const [frequency, duration] = melody[musicStep];
+                    const now = audioContext.currentTime;
+
+                    const oscillator = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+
+                    oscillator.type = "triangle";
+                    oscillator.frequency.setValueAtTime(frequency, now);
+
+                    gain.gain.setValueAtTime(0.0001, now);
+                    gain.gain.exponentialRampToValueAtTime(0.07, now + 0.035);
+                    gain.gain.setTargetAtTime(
+                        0.0001,
+                        now + Math.max(0.08, duration / 1000 - 0.08),
+                        0.04
+                    );
+
+                    oscillator.connect(gain);
+                    gain.connect(audioContext.destination);
+
+                    oscillator.start(now);
+                    oscillator.stop(now + duration / 1000);
+
+                    musicStep = (musicStep + 1) % melody.length;
+                    musicTimer = setTimeout(playNextNote, duration + 35);
+                }
+
+                musicStep = 0;
+                playNextNote();
+
+            } catch (error) {
+                console.warn("Audio playback is unavailable.", error);
+            }
+        }
+
+        /* =====================================
+           FIREWORKS ANIMATION
+        ===================================== */
+
+        const fireworksCanvas = document.getElementById("fireworksCanvas");
+        const fireworksCtx = fireworksCanvas.getContext("2d");
+
+        let fireworks = [];
+        let fireworkParticles = [];
+        let fireworksAnimationId = null;
+        let fireworksTimer = null;
+        let lastLaunchTime = 0;
+
+        const fireworkColors = [
+            "#ff4d8d",
+            "#ffd166",
+            "#7cffcb",
+            "#67d7ff",
+            "#c77dff",
+            "#ffffff",
+            "#ff7b54",
+            "#ff9f1c"
+        ];
+
+        function resizeFireworksCanvas() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            fireworksCanvas.width = Math.round(window.innerWidth * dpr);
+            fireworksCanvas.height = Math.round(window.innerHeight * dpr);
+
+            fireworksCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        window.addEventListener("resize", resizeFireworksCanvas);
+        resizeFireworksCanvas();
+
+        function launchFirework() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            fireworks.push({
+                x: width * (0.12 + Math.random() * 0.76),
+                y: height + 10,
+                targetY: height * (0.12 + Math.random() * 0.48),
+                speed: 5 + Math.random() * 3,
+                color: fireworkColors[
+                    Math.floor(Math.random() * fireworkColors.length)
+                ],
+                trail: []
+            });
+        }
+
+        function explodeFirework(x, y, color) {
+            const particleCount = 75 + Math.floor(Math.random() * 45);
+
+            for (let i = 0; i < particleCount; i++) {
+                const angle = Math.PI * 2 * i / particleCount;
+                const speed = 1.2 + Math.random() * 4.8;
+
+                fireworkParticles.push({
+                    x, y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    alpha: 1,
+                    decay: 0.008 + Math.random() * 0.012,
+                    gravity: 0.035 + Math.random() * 0.035,
+                    radius: 1 + Math.random() * 2.2,
+                    color: Math.random() < 0.12 ? "#ffffff" : color,
+                    sparkle: Math.random() < 0.35
+                });
+            }
+        }
+
+        function animateFireworks(timestamp) {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            fireworksCtx.clearRect(0, 0, width, height);
+
+            // Launch multiple fireworks at intervals
+            if (timestamp - lastLaunchTime > 320) {
+                launchFirework();
+
+                if (Math.random() > 0.45) launchFirework();
+
+                lastLaunchTime = timestamp;
+            }
+
+            // Rockets rise into the sky
+            fireworks = fireworks.filter(firework => {
+                firework.trail.push({ x: firework.x, y: firework.y });
+
+                if (firework.trail.length > 7) firework.trail.shift();
+
+                firework.y -= firework.speed;
+
+                firework.trail.forEach((point, index) => {
+                    fireworksCtx.beginPath();
+                    fireworksCtx.arc(
+                        point.x, point.y, 1 + index * 0.35, 0, Math.PI * 2
+                    );
+
+                    fireworksCtx.globalAlpha =
+                        (index / firework.trail.length) * 0.6;
+
+                    fireworksCtx.fillStyle = firework.color;
+                    fireworksCtx.fill();
+                });
+
+                fireworksCtx.globalAlpha = 1;
+
+                if (firework.y <= firework.targetY) {
+                    explodeFirework(firework.x, firework.y, firework.color);
+                    return false;
+                }
+
+                fireworksCtx.save();
+                fireworksCtx.beginPath();
+                fireworksCtx.arc(firework.x, firework.y, 3, 0, Math.PI * 2);
+                fireworksCtx.shadowBlur = 18;
+                fireworksCtx.shadowColor = firework.color;
+                fireworksCtx.fillStyle = "#ffffff";
+                fireworksCtx.fill();
+                fireworksCtx.restore();
+
+                return true;
+            });
+
+            // Exploding particles spread out and fade
+            fireworkParticles = fireworkParticles.filter(particle => {
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                particle.vy += particle.gravity;
+
+                particle.vx *= 0.985;
+                particle.vy *= 0.985;
+                particle.alpha -= particle.decay;
+
+                if (particle.alpha <= 0) return false;
+
+                fireworksCtx.save();
+                fireworksCtx.globalAlpha = Math.max(0, particle.alpha);
+                fireworksCtx.fillStyle = particle.color;
+                fireworksCtx.shadowBlur = particle.sparkle ? 12 : 5;
+                fireworksCtx.shadowColor = particle.color;
+
+                fireworksCtx.beginPath();
+                fireworksCtx.arc(
+                    particle.x, particle.y, particle.radius, 0, Math.PI * 2
+                );
+
+                fireworksCtx.fill();
+                fireworksCtx.restore();
+
+                return true;
+            });
+
+            fireworksAnimationId = requestAnimationFrame(animateFireworks);
+        }
+
+        function startFireworks() {
+            if (fireworksAnimationId !== null) return;
+
+            resizeFireworksCanvas();
+
+            fireworks = [];
+            fireworkParticles = [];
+            lastLaunchTime = 0;
+
+            fireworksCanvas.classList.add("show");
+
+            fireworksAnimationId = requestAnimationFrame(animateFireworks);
+
+            clearTimeout(fireworksTimer);
+
+            fireworksTimer = setTimeout(stopFireworks, 30000);
+        }
+
+        function stopFireworks() {
+            if (fireworksAnimationId !== null) {
+                cancelAnimationFrame(fireworksAnimationId);
+                fireworksAnimationId = null;
+            }
+
+            clearTimeout(fireworksTimer);
+
+            fireworks = [];
+            fireworkParticles = [];
+
+            fireworksCtx.clearRect(
+                0, 0, window.innerWidth, window.innerHeight
+            );
+
+            fireworksCanvas.classList.remove("show");
+        }
+
+        /* =====================================
+           OPEN INVITATION
+        ===================================== */
+
+        const welcome = document.getElementById("welcome");
+        const invitation = document.getElementById("invitation");
+        let invitationOpened = false;
+
+        document.getElementById("openButton").addEventListener("click", () => {
+            if (invitationOpened) return;
+
+            invitationOpened = true;
+
+            startBirthdayMusic();
+            burstConfetti();
+            startFireworks();
+
+            invitation.hidden = false;
+            welcome.classList.add("is-hidden");
+
+            setTimeout(() => {
+                welcome.style.display = "none";
+
+                document.getElementById("photosHeading").scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }, 1100);
+        });
+
+        /* =====================================
+           RSVP MODAL
+        ===================================== */
+
+        const modal = document.getElementById("rsvpModal");
+        const rsvpForm = document.getElementById("rsvpForm");
+        const formError = document.getElementById("formError");
+        const formMessage = document.getElementById("formMessage");
+        const submitButton = document.getElementById("submitButton");
+
+        let previousFocus = null;
+
+        function openModal() {
+            previousFocus = document.activeElement;
+
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("modal-open");
+
+            setTimeout(() => document.getElementById("guestName").focus(), 100);
+        }
+
+        function closeModal() {
+            modal.classList.remove("open");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("modal-open");
+
+            if (previousFocus) previousFocus.focus();
+        }
+
+        document.getElementById("rsvpButton").addEventListener("click", openModal);
+        document.getElementById("closeModal").addEventListener("click", closeModal);
+
+        modal.addEventListener("click", event => {
+            if (event.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape" && modal.classList.contains("open")) {
+                closeModal();
+            }
+        });
+
+        /* =====================================
+           SUBMIT RSVP TO GOOGLE APPS SCRIPT
+        ===================================== */
+
+        rsvpForm.addEventListener("submit", async event => {
+            event.preventDefault();
+
+            formError.textContent = "";
+            formMessage.textContent = "";
+
+            if (!rsvpForm.reportValidity()) return;
+
+            if (!CONFIG.googleScriptUrl.startsWith(
+                "https://script.google.com/macros/s/"
+            )) {
+                formError.textContent =
+                    "Please configure googleScriptUrl with your deployed Google Apps Script Web App URL.";
+                return;
+            }
+
+            const data = {
+                guestName: document.getElementById("guestName").value.trim(),
+                phone: document.getElementById("guestPhone").value.trim(),
+                status: document.getElementById("rsvpStatus").value,
+                guestCount: Number(document.getElementById("guestCount").value),
+                eventName: `${CONFIG.birthdayName}'s Birthday Celebration`,
+                submittedAt: new Date().toISOString()
+            };
+
+            if (
+                !data.guestName ||
+                !data.phone ||
+                !data.status ||
+                !Number.isInteger(data.guestCount) ||
+                data.guestCount < 1
+            ) {
+                formError.textContent = "Please check all fields and try again.";
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = "SENDING...";
+            formMessage.textContent = "Please wait while your RSVP is submitted.";
+
+            try {
+                await fetch(CONFIG.googleScriptUrl, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(data),
+                    redirect: "follow"
+                });
+
+                formMessage.textContent =
+                    "Your RSVP has been sent. Thank you for responding!";
+
+                rsvpForm.reset();
+
+            } catch (error) {
+                formError.textContent =
+                    "We could not send your response. Check your connection and try again.";
+
+                console.error("RSVP submission error:", error);
+
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = "SEND MY RSVP ✦";
+            }
+        });
+    </script>
+</body>
+
+</html>
