@@ -1123,6 +1123,7 @@
             }
         }
 
+
         /* =====================================
            BIRTHDAY MUSIC
         ===================================== */
@@ -1130,19 +1131,26 @@
         let audioContext = null;
         let musicTimer = null;
         let musicStep = 0;
+        let isMusicPlaying = false;
 
         function startBirthdayMusic() {
+            // သီချင်းဖွင့်နေပြီးသားဆို ထပ်မဖွင့်ပါ
+            if (isMusicPlaying) return;
+
+            isMusicPlaying = true;
+
             try {
                 const AudioContextClass =
                     window.AudioContext || window.webkitAudioContext;
 
-                if (!AudioContextClass) return;
+                if (!AudioContextClass) {
+                    isMusicPlaying = false;
+                    return;
+                }
 
-                if (!audioContext) audioContext = new AudioContextClass();
-
-                audioContext.resume();
-
-                if (musicTimer) clearTimeout(musicTimer);
+                if (!audioContext) {
+                    audioContext = new AudioContextClass();
+                }
 
                 // Happy Birthday melody
                 const melody = [
@@ -1161,7 +1169,11 @@
                 ];
 
                 function playNextNote() {
-                    if (!audioContext || audioContext.state !== "running") return;
+                    // Music ရပ်ထားလျှင် ဆက်မဖွင့်ပါ
+                    if (!isMusicPlaying || !audioContext ||
+                        audioContext.state !== "running") {
+                        return;
+                    }
 
                     const [frequency, duration] = melody[musicStep];
                     const now = audioContext.currentTime;
@@ -1173,7 +1185,11 @@
                     oscillator.frequency.setValueAtTime(frequency, now);
 
                     gain.gain.setValueAtTime(0.0001, now);
-                    gain.gain.exponentialRampToValueAtTime(0.07, now + 0.035);
+                    gain.gain.exponentialRampToValueAtTime(
+                        0.07,
+                        now + 0.035
+                    );
+
                     gain.gain.setTargetAtTime(
                         0.0001,
                         now + Math.max(0.08, duration / 1000 - 0.08),
@@ -1187,16 +1203,48 @@
                     oscillator.stop(now + duration / 1000);
 
                     musicStep = (musicStep + 1) % melody.length;
-                    musicTimer = setTimeout(playNextNote, duration + 35);
+
+                    // နောက်သံတစ်ခုကို အစဉ်လိုက်ဖွင့်ပါ
+                    musicTimer = setTimeout(
+                        playNextNote,
+                        duration + 35
+                    );
                 }
 
                 musicStep = 0;
-                playNextNote();
+
+                // Audio ကို ဖွင့်ပြီးမှ သီချင်းစပါ
+                audioContext.resume()
+                    .then(() => {
+                        if (isMusicPlaying) {
+                            playNextNote();
+                        }
+                    })
+                    .catch(error => {
+                        isMusicPlaying = false;
+                        console.warn("Audio playback failed:", error);
+                    });
 
             } catch (error) {
-                console.warn("Audio playback is unavailable.", error);
+                isMusicPlaying = false;
+                console.warn("Audio playback is unavailable:", error);
             }
         }
+
+        // Music ရပ်ရန်လိုလျှင် ဒီ function ကို ခေါ်နိုင်ပါတယ်
+        function stopBirthdayMusic() {
+            isMusicPlaying = false;
+
+            if (musicTimer) {
+                clearTimeout(musicTimer);
+                musicTimer = null;
+            }
+
+            if (audioContext && audioContext.state === "running") {
+                audioContext.suspend();
+            }
+        }
+
 
         /* =====================================
            FIREWORKS ANIMATION
